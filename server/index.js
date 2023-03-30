@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 
 import { userRouter } from './routes/users.js';
+import { recipeRouter } from './routes/recipes.js';
 
 //To generate a version of our API
 const app = express();
