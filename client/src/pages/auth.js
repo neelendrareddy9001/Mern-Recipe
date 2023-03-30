@@ -1,5 +1,7 @@
 import { useState } from "react";
-import axios from axios;
+import axios from "axios";
+import {useCookies} from 'react-cookie';
+import {useNavigate} from 'react-router-dom';
 
 export const Auth = () => {
     return (
@@ -16,14 +18,53 @@ const Login = () => {
     const [username, setUsername] = useState(" ");
     const [password, setPassword] = useState(" ");
 
+    const [_, setCookies] = useCookies(["access_toeken"]);
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const result = await axios.post("http://localhost:3001/auth/login", {
+                username,
+                password,
+            });
+
+            setCookies("access_toeken", result.data.token);
+            window.localStorage.setItem("userId", result.data.userId);
+            navigate("/")
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
-        <Form 
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-            label="Login"
-        />
+        <div className="auth-container">
+      <form onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
     );
 };
 
@@ -33,37 +74,45 @@ const Register = () => {
     const [username, setUsername] = useState(" ");
     const [password, setPassword] = useState(" ");
 
-    const onSubmit = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+
+        try {
+            await axios.post("http://localhost:3001/auth/register", {
+                username, 
+                password,
+            });
+            alert ("Registration Completed! Now Login.")
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
-        <Form 
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-            label="Register"
-
-        />
+        <div className="auth-container">
+            <form onSubmit={handleSubmit}>
+                <h2>Register</h2>
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={(event) => setUsername(event.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password : </label>
+                    <input 
+                        type="password"
+                        id="password"
+                        vlaue={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                    />
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
     );
 };
 
-const Form = ({username, setUsername, password, setPassword,label, onSubmit}) => {
-    return (
-        <div className="auth-container">
-        <form onSubmit={onSubmit}>
-            <h2>{label}</h2>
-            <div className="form-group">
-                <label htmlFor="username">Username : </label>
-                <input type="text" id="username" value={username} onChange={(event) =>{setUsername(event.target.value)}}/>
-            </div>
-            <div className="form-group">
-                <label htmlFor="password">Password :</label>
-                <input type="password" id="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
-            </div>
-            <button type="submit">{label}</button>
-        </form>
-    </div>
-    )
-}
