@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom"
+import React from 'react';
+import { Link, useNavigate } from "react-router-dom"
+import {useCoolies} from 'react-cookie';
 
 export const Navbar = () => {
+    
     return (
         <div className="navbar">
             <Link to="/">Home</Link>
