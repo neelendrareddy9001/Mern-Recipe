@@ -2,13 +2,16 @@ import { useState } from "react";
 import axios from "axios";
 import {useCookies} from 'react-cookie';
 import {useNavigate} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 export const Auth = () => {
     return (
+        <Router>
         <div className="auth">
-            <Login/>
-            <Register/>
+            <Route path="/login" Component={<Login/>} />
+            <Route path="/signin" Component={<Register/>} />
         </div>
+        </Router>
     );
 };
 
