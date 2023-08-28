@@ -6,12 +6,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 export const Auth = () => {
     return (
-        <Router>
-        <div className="auth">
-            <Route path="/login" Component={<Login/>} />
-            <Route path="/signin" Component={<Register/>} />
-        </div>
-        </Router>
+        <>
+        <Login/>
+        </>
     );
 };
 
@@ -19,7 +16,7 @@ export const Auth = () => {
 const Login = () => {
     
     const [username, setUsername] = useState(" ");
-    const [password, setPassword] = useState(" ");
+    const [password, setPassword] = useState("");
 
     const [_, setCookies] = useCookies(["access_toeken"]);
 

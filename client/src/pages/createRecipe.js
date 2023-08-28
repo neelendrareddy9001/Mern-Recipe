@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 export const CreateRecipe = () => {
     const [recipe, setRecipe] = useState({
         name : "",
@@ -15,6 +16,7 @@ export const CreateRecipe = () => {
     }
     
     return (
+        <>
         <div className="create-recipe">
             <h2>Create Recipe</h2>
             <form>
@@ -29,5 +31,6 @@ export const CreateRecipe = () => {
                 <input type="submit" id="cookingTime" name="cookingTime" onChange={handleChange}></input>
             </form>
         </div>
+        </>
     )
 }
