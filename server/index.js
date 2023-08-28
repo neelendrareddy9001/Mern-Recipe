@@ -18,12 +18,12 @@ app.use("/recipes", recipeRouter);
 
 //MondoDb connection
 mongoose.connect(
-    "mongodb+srv://neelendrareddy123:neelu123@recipes.d1wd1dk.mongodb.net/recipes?retryWrites=true&w=majority",
+    "mongodb+srv://neelendrareddy123:Neele1234@omitstoreecommerce.mtojvcm.mongodb.net/?retryWrites=true&w=majority",
     {
         useNewUrlParser : true,
         useUnifiedTopology : true,
     }
-)
+).then(() => {console.log("db Connected")})
 
 
 app.listen(3001, () => {
