@@ -1,25 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
-import {useCookies} from 'react-cookie';
-import {useNavigate} from 'react-router-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export const Auth = () => {
     return (
-        <Router>
-        <div className="auth">
-            <Route path="/login" Component={<Login/>} />
-            <Route path="/signin" Component={<Register/>} />
-        </div>
-        </Router>
+        <Login />
     );
 };
 
 
 const Login = () => {
-    
-    const [username, setUsername] = useState(" ");
-    const [password, setPassword] = useState(" ");
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const [_, setCookies] = useCookies(["access_toeken"]);
 
@@ -33,7 +27,7 @@ const Login = () => {
                 username,
                 password,
             });
-
+            console.log(result,"userpass")
             setCookies("access_toeken", result.data.token);
             window.localStorage.setItem("userId", result.data.userId);
             navigate("/")
@@ -45,35 +39,35 @@ const Login = () => {
 
     return (
         <div className="auth-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
+            <form onSubmit={handleSubmit}>
+                <h2>Login</h2>
+                <div className="form-group">
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={(event) => setUsername(event.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                    />
+                </div>
+                <button type="submit">Login</button>
+            </form>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
     );
 };
 
 
 const Register = () => {
-    
+
     const [username, setUsername] = useState(" ");
     const [password, setPassword] = useState(" ");
 
@@ -82,10 +76,10 @@ const Register = () => {
 
         try {
             await axios.post("http://localhost:3001/auth/register", {
-                username, 
+                username,
                 password,
             });
-            alert ("Registration Completed! Now Login.")
+            alert("Registration Completed! Now Login.")
         } catch (err) {
             console.log(err);
         }
@@ -106,7 +100,7 @@ const Register = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password : </label>
-                    <input 
+                    <input
                         type="password"
                         id="password"
                         vlaue={password}
