@@ -1,47 +1,43 @@
 import { useState } from "react";
 import axios from "axios";
-import {useCookies} from 'react-cookie';
-import {useNavigate} from 'react-router-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const Auth = () => {
-    return (
-        <>
-        <Login/>
-        </>
-    );
+  return (
+    <>
+      <Login />
+    </>
+  );
 };
 
-
 const Login = () => {
-    
-    const [username, setUsername] = useState(" ");
-    const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [_, setCookies] = useCookies(["access_toeken"]);
+  const [_, setCookies] = useCookies(["access_toeken"]);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        try {
-            const result = await axios.post("http://localhost:3001/auth/login", {
-                username,
-                password,
-            });
-
-            setCookies("access_toeken", result.data.token);
-            window.localStorage.setItem("userId", result.data.userId);
-            navigate("/")
-
-        } catch (error) {
-            console.log(error);
-        }
+    try {
+      const result = await axios.post("http://localhost:3001/auth/login", {
+        username,
+        password,
+      });
+      console.log(result, "userpass");
+      setCookies("access_toeken", result.data.token);
+      window.localStorage.setItem("userId", result.data.userId);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return (
-        <div className="auth-container">
+  return (
+    <div className="auth-container">
       <form onSubmit={handleSubmit}>
         <h2>Login</h2>
         <div className="form-group">
@@ -65,54 +61,51 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
     </div>
-    );
+  );
 };
-
 
 const Register = () => {
-    
-    const [username, setUsername] = useState(" ");
-    const [password, setPassword] = useState(" ");
+  const [username, setUsername] = useState(" ");
+  const [password, setPassword] = useState(" ");
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        try {
-            await axios.post("http://localhost:3001/auth/register", {
-                username, 
-                password,
-            });
-            alert ("Registration Completed! Now Login.")
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    try {
+      await axios.post("http://localhost:3001/auth/register", {
+        username,
+        password,
+      });
+      alert("Registration Completed! Now Login.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    return (
-        <div className="auth-container">
-            <form onSubmit={handleSubmit}>
-                <h2>Register</h2>
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(event) => setUsername(event.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password : </label>
-                    <input 
-                        type="password"
-                        id="password"
-                        vlaue={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
-                </div>
-                <button type="submit">Register</button>
-            </form>
+  return (
+    <div className="auth-container">
+      <form onSubmit={handleSubmit}>
+        <h2>Register</h2>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
         </div>
-    );
+        <div className="form-group">
+          <label htmlFor="password">Password : </label>
+          <input
+            type="password"
+            id="password"
+            vlaue={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  );
 };
-
