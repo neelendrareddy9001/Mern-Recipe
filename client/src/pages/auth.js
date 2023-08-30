@@ -7,6 +7,7 @@ export const Auth = () => {
   return (
     <>
       <Login />
+      <Register />
     </>
   );
 };
@@ -37,30 +38,13 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <Form
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      label="Login"
+    />
   );
 };
 
@@ -83,9 +67,29 @@ const Register = () => {
   };
 
   return (
+    <Form
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      label="Register"
+      onSubmit={handleSubmit}
+    />
+  );
+};
+
+const Form = ({
+  username,
+  setUsername,
+  password,
+  setPassword,
+  label,
+  handleSubmit,
+}) => {
+  return (
     <div className="auth-container">
       <form onSubmit={handleSubmit}>
-        <h2>Register</h2>
+        <h2>{label}</h2>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
@@ -104,7 +108,7 @@ const Register = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">{label}</button>
       </form>
     </div>
   );
